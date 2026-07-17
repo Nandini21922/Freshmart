@@ -178,5 +178,43 @@ public class ProductDAOImpl implements ProductDAO {
 			System.out.println("Error deleting product : " + e.getMessage());
 		}
 	}
+	
+	@Override
+	public List<Product> searchProducts(String keyword) {
+
+		List<Product> productList = new ArrayList<>();
+		Product product = null;
+
+		String query = "SELECT * FROM product WHERE pname LIKE ?";
+
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+
+			ps.setString(1, "%" + keyword + "%");
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				product = new Product();
+
+				product.setPid(rs.getInt("pid"));
+				product.setPname(rs.getString("pname"));
+				product.setPricePerKg(rs.getDouble("price_per_kg"));
+				product.setCatId(rs.getInt("cat_id"));
+				product.setDescription(rs.getString("description"));
+				product.setImageUrl(rs.getString("image_url"));
+
+				productList.add(product);
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println("Error searching products : " + e.getMessage());
+
+		}
+
+		return productList;
+	}
 
 }

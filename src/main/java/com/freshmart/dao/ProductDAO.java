@@ -16,5 +16,7 @@ public interface ProductDAO {
 	void updateProduct(Product product);
 
 	void deleteProduct(Integer pid);
+	
+	List<Product> searchProducts(String keyword);
 
 }

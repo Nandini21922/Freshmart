@@ -173,5 +173,40 @@ public class CartItemDAOImpl implements CartItemDAO {
 			System.out.println("Error deleting cart item : " + e.getMessage());
 		}
 	}
+	
+	@Override
+	public CartItem getCartItemByCartIdAndProductId(Integer cartId, Integer pid) {
+
+		CartItem cartItem = null;
+
+		String query = "SELECT * FROM cart_item WHERE cart_id=? AND pid=?";
+
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+
+			ps.setInt(1, cartId);
+			ps.setInt(2, pid);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				cartItem = new CartItem();
+
+				cartItem.setCiId(rs.getInt("ci_id"));
+				cartItem.setCartId(rs.getInt("cart_id"));
+				cartItem.setPid(rs.getInt("pid"));
+				cartItem.setQuantity(rs.getDouble("quantity"));
+				cartItem.setTotalPrice(rs.getDouble("total_price"));
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println("Error fetching cart item : " + e.getMessage());
+
+		}
+
+		return cartItem;
+	}
 
 }

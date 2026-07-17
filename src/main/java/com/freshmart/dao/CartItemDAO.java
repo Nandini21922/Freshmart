@@ -16,5 +16,7 @@ public interface CartItemDAO {
 	void updateCartItem(CartItem cartItem);
 
 	void deleteCartItem(Integer ciId);
+	
+	CartItem getCartItemByCartIdAndProductId(Integer cartId, Integer pid);
 
 }
