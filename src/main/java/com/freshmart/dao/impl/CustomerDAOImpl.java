@@ -172,4 +172,38 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return customerList;
 	}
 
+	@Override
+	public Customer getCustomerByMail(String mail) {
+
+		Customer customer = null;
+
+		String query = "SELECT * FROM customer WHERE mail=?";
+
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+
+			ps.setString(1, mail);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				customer = new Customer();
+
+				customer.setCid(rs.getInt("cid"));
+				customer.setCname(rs.getString("cname"));
+				customer.setPhone(rs.getLong("phone"));
+				customer.setMail(rs.getString("mail"));
+				customer.setPwd(rs.getString("pwd"));
+
+			}
+
+		} 
+		catch (SQLException e) {
+		    System.out.println("Error fetching customer : " + e.getMessage());
+		}
+
+		return customer;
+	}
+
+
 }

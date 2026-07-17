@@ -16,5 +16,7 @@ public interface CustomerDAO {
 	void deleteCustomer(Integer cid);
 
 	List<Customer> getAllCustomers();
+	
+	Customer getCustomerByMail(String mail);
 
 }
